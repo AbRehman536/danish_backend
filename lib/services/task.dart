@@ -6,9 +6,13 @@ class TaskServices{
   String taskCollection = "TaskCollection";
   ///Create Task
   Future createTask(TaskModel model)async{
+    DocumentReference documentReference = await FirebaseFirestore.instance
+    .collection(taskCollection)
+    .doc();
     return await FirebaseFirestore.instance
         .collection(taskCollection)
-        .add(model.toJson());
+        .doc(documentReference.id)
+        .set(model.toJson(documentReference.id));
   }
   ///Update Task
   Future updateTask(TaskModel model)async{
@@ -18,10 +22,10 @@ class TaskServices{
         .update({"name" : model.name, "description": model.description});
   }
   ///Delete Task
-  Future deleteTask(TaskModel model)async{
+  Future deleteTask(String taskID)async{
     return await FirebaseFirestore.instance
         .collection(taskCollection)
-        .doc(model.docId)
+        .doc(taskID)
         .delete();
   }
   ///Mark As Completed
