@@ -29,11 +29,11 @@ class TaskServices{
         .delete();
   }
   ///Mark As Completed
-  Future markAsCompletedTask(TaskModel model)async{
+  Future markAsCompletedTask({required String taskID, required bool isCompleted})async{
     return await FirebaseFirestore.instance
         .collection(taskCollection)
-        .doc(model.docId)
-        .update({"isCompleted" : model.isCompleted,});
+        .doc(taskID)
+        .update({"isCompleted" : isCompleted,});
   }
   ///Get All Task
   Stream<List<TaskModel>> getAllTask(){
