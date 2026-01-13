@@ -1,6 +1,7 @@
 import 'package:danish_backend/models/task.dart';
 import 'package:danish_backend/services/task.dart';
 import 'package:danish_backend/views/create_task.dart';
+import 'package:danish_backend/views/get_all_priority.dart';
 import 'package:danish_backend/views/get_completed_task.dart';
 import 'package:danish_backend/views/get_incompleted_task.dart';
 import 'package:danish_backend/views/update_task.dart';
@@ -23,6 +24,9 @@ class GetAllTask extends StatelessWidget {
           IconButton(onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> GetInCompletedTask()));
           }, icon: Icon(Icons.incomplete_circle)),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetAllPriority()));
+          }, icon: Icon(Icons.category)),
         ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
