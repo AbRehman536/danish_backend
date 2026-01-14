@@ -1,6 +1,7 @@
 import 'package:danish_backend/models/priority.dart';
 import 'package:danish_backend/services/priority.dart';
 import 'package:danish_backend/views/create_priority.dart';
+import 'package:danish_backend/views/get_priority.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +39,10 @@ class GetAllPriority extends StatelessWidget {
                     }, icon: Icon(Icons.delete)),
                     IconButton(onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>CreatePriority(model: PriorityModel(), isUpdateMode: true)));
-                    }, icon: Icon(Icons.edit))
+                    }, icon: Icon(Icons.edit)),
+                    IconButton(onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GetPriority(model: PriorityModel())));
+                    }, icon: Icon(Icons.arrow_forward)),
                   ],
                 ),
               );
