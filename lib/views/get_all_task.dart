@@ -3,6 +3,7 @@ import 'package:danish_backend/services/task.dart';
 import 'package:danish_backend/views/create_task.dart';
 import 'package:danish_backend/views/get_all_priority.dart';
 import 'package:danish_backend/views/get_completed_task.dart';
+import 'package:danish_backend/views/get_favorite.dart';
 import 'package:danish_backend/views/get_incompleted_task.dart';
 import 'package:danish_backend/views/update_task.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,9 @@ class GetAllTask extends StatelessWidget {
           IconButton(onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> GetAllPriority()));
           }, icon: Icon(Icons.category)),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetFavorite()));
+          }, icon: Icon(Icons.favorite)),
         ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
@@ -59,6 +63,17 @@ class GetAllTask extends StatelessWidget {
                                   .showSnackBar(SnackBar(content: Text(e.toString())));
                             }
                           }),
+                      IconButton(onPressed: ()async{
+                        if(taskList[index].favorite!.contains("1")){
+                          await TaskServices().removeFromFavorite(
+                              taskID: taskList[index].docId.toString(),
+                              userID: "1");
+                        }else{
+                          await TaskServices().addToFavorite(
+                              taskID: taskList[index].docId.toString(),
+                              userID: "1");
+                        }
+                      }, icon: Icon(taskList[index].favorite!.contains("1") ? Icons.favorite: Icons.favorite_border)),
                       IconButton(onPressed: ()async{
                         try{
                           await TaskServices().deleteTask(taskList[index].docId.toString());
