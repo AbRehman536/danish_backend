@@ -28,12 +28,12 @@ class UserServices {
   }
 
   ///Get User by ID
-  Stream<UserModel> getUserByID(String userID) {
-    return FirebaseFirestore.instance
+  Future<UserModel> getUserByID(String userID)async {
+    return await FirebaseFirestore.instance
         .collection('UserCollection')
-        .where("userID" , isEqualTo: userID)
-        .snapshots()
-          .map((json) => UserModel.fromJson(json.data())
+        .doc(userID)
+        .get()
+          .then((json) => UserModel.fromJson(json.data()!)
     );
   }
 }

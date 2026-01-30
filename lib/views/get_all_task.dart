@@ -5,15 +5,19 @@ import 'package:danish_backend/views/get_all_priority.dart';
 import 'package:danish_backend/views/get_completed_task.dart';
 import 'package:danish_backend/views/get_favorite.dart';
 import 'package:danish_backend/views/get_incompleted_task.dart';
+import 'package:danish_backend/views/get_profile.dart';
 import 'package:danish_backend/views/update_task.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../provider/user.dart';
 
 class GetAllTask extends StatelessWidget {
   const GetAllTask({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Get All Task"),
@@ -31,6 +35,9 @@ class GetAllTask extends StatelessWidget {
           IconButton(onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> GetFavorite()));
           }, icon: Icon(Icons.favorite)),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetProfile()));
+          }, icon: Icon(Icons.person)),
         ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
@@ -64,16 +71,16 @@ class GetAllTask extends StatelessWidget {
                             }
                           }),
                       IconButton(onPressed: ()async{
-                        if(taskList[index].favorite!.contains("1")){
+                        if(taskList[index].favorite!.contains(userProvider.getUser().docId.toString())){
                           await TaskServices().removeFromFavorite(
                               taskID: taskList[index].docId.toString(),
-                              userID: "1");
+                              userID: userProvider.getUser().docId.toString());
                         }else{
                           await TaskServices().addToFavorite(
                               taskID: taskList[index].docId.toString(),
-                              userID: "1");
+                              userID: userProvider.getUser().docId.toString());
                         }
-                      }, icon: Icon(taskList[index].favorite!.contains("1") ? Icons.favorite: Icons.favorite_border)),
+                      }, icon: Icon(taskList[index].favorite!.contains(userProvider.getUser().docId.toString()) ? Icons.favorite: Icons.favorite_border)),
                       IconButton(onPressed: ()async{
                         try{
                           await TaskServices().deleteTask(taskList[index].docId.toString());
